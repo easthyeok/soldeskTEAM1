@@ -24,8 +24,8 @@ sudo sed -i "s/hostname = 'dbaddress'/hostname = 'RDSendpoint'/g" /var/www/html/
 sudo sed -i "s/username = 'careadmin'/username = 'RDSid'/g" /var/www/html/basic/login/dbconn.php
 sudo sed -i "s/password = 'hackers'/password = 'RDSpw'/g" /var/www/html/basic/login/dbconn.php
 sudo sed -i "s/database = 'care_db'/database = 'DBname'/g" /var/www/html/basic/login/dbconn.php
-sudo mysql -u soldesk -psoldesk1 -h database-1.chu20p7u0ai0.ap-northeast-2.rds.amazonaws.com < root_query.sql
-sudo mysql -u soldesk -psoldesk1 -h database-1.chu20p7u0ai0.ap-northeast-2.rds.amazonaws.com care_db < member.sql
-sudo mysql -u soldesk -psoldesk1 -h database-1.chu20p7u0ai0.ap-northeast-2.rds.amazonaws.com care_db < greet.sql
+sudo mysql -u soldesk -psoldesk1 -h [RDSendpoint] < root_query.sql
+sudo mysql -u soldesk -psoldesk1 -h [RDSendpoint] care_db < member.sql
+sudo mysql -u soldesk -psoldesk1 -h [RDSendpoint] care_db < greet.sql
 sudo systemctl start httpd
 sudo systemctl enable httpd
