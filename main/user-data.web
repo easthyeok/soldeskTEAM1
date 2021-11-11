@@ -2,9 +2,8 @@
 (
 echo "soldesk"
 echo "soldesk"
-) | passwd --stdin root
+) | passwd --stdin ec2-user
 sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
-sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
 sudo service sshd restart
 sudo yum install -y httpd
 sudo systemctl start httpd
