@@ -1,0 +1,32 @@
+#!/bin/bash
+(
+echo "soldesk"
+echo "soldesk"
+) | passwd --stdin root
+sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+service sshd restart
+sudo yum install -y mysql httpd
+sudo amazon-linux-extras install php7.2 -y
+sudo amazon-linux-extras enable php7.2
+sudo yum install -y php-cli php-common php-gd php-mbstring  php-mysqlnd php-pdo php-fpm php-xml php-opcache php-zip php-bcmath
+sudo sed -i 's/;date.timezone =/date.timezone = Asia\/Seoul/g' /etc/php.ini
+sudo sed -i 's/short_open_tag = Off/short_open_tag = On/g' /etc/php.ini
+#sudo sed -i "s/Listen 80/Listen 9999/g" /etc/httpd/conf/httpd.conf
+sudo wget https://github.com/EASThyeok/soldeskTEAM1/raw/main/soldeskTEAM1_PHP.zip
+sudo mkdir /var/www/html/basic
+sudo unzip soldeskTEAM1_PHP.zip -d /var/www/html/basic
+sudo wget https://github.com/EASThyeok/soldeskTEAM1/raw/main/index.html
+sudo cp index.html /var/www/html/
+sudo chmod 0777 /var/www/html/basic/data
+sudo wget https://github.com/EASThyeok/soldeskTEAM1/raw/main/soldeskTEAM1_DB.zip
+sudo unzip soldeskTEAM1_DB.zip
+sudo sed -i "s/hostname = 'dbaddress'/hostname = 'RDSendpoint'/g" /var/www/html/basic/login/dbconn.php
+sudo sed -i "s/username = 'careadmin'/username = 'RDSid'/g" /var/www/html/basic/login/dbconn.php
+sudo sed -i "s/password = 'hackers'/password = 'RDSpw'/g" /var/www/html/basic/login/dbconn.php
+sudo sed -i "s/database = 'care_db'/database = 'DBname'/g" /var/www/html/basic/login/dbconn.php
+sudo mysql -u soldesk -psoldesk1 -h database-1.chu20p7u0ai0.ap-northeast-2.rds.amazonaws.com < root_query.sql
+sudo mysql -u soldesk -psoldesk1 -h database-1.chu20p7u0ai0.ap-northeast-2.rds.amazonaws.com care_db < member.sql
+sudo mysql -u soldesk -psoldesk1 -h database-1.chu20p7u0ai0.ap-northeast-2.rds.amazonaws.com care_db < greet.sql
+sudo systemctl start httpd
+sudo systemctl enable httpd

@@ -1,0 +1,31 @@
+#!/bin/bash
+(
+echo "soldesk"
+echo "soldesk"
+) | passwd --stdin root
+sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+sed -i "s/^#PermitRootLogin yes/PermitRootLogin yes/g" /etc/ssh/sshd_config
+sudo service sshd restart
+sudo yum install -y httpd
+sudo systemctl start httpd
+sudo touch /var/www/html/index.html
+sudo echo "Storage Gateway webserver" > /var/www/html/index.html
+sudo systemctl restart httpd
+
+sudo echo "<VirtualHost *:80>" >> /etc/httpd/conf/httpd.conf 
+sudo echo "ServerName [EX로드밸런스 DNS]
+ErrorLog logs/counterjp.fureweb.com-error_log" >> /etc/httpd/conf/httpd.conf 
+sudo echo "ProxyRequests Off" >> /etc/httpd/conf/httpd.conf 
+sudo echo -e "ProxyPreserveHost On\n" >> /etc/httpd/conf/httpd.conf 
+
+sudo echo "<Proxy *>" >> /etc/httpd/conf/httpd.conf 
+sudo echo "Order deny,allow" >> /etc/httpd/conf/httpd.conf 
+sudo echo "Allow from all" >> /etc/httpd/conf/httpd.conf 
+sudo echo -e "</Proxy>\n" >> /etc/httpd/conf/httpd.conf 
+
+sudo echo "ProxyPass / http://[internal 로밸 DNS]/" >> /etc/httpd/conf/httpd.conf 
+sudo echo "#ProxyPassMatch ^/(.*\.do)$ http://[internal 로밸 DNS]:8080" >> /etc/httpd/conf/httpd.conf 
+sudo echo "#ProxyPassMatch ^/(.*\.jsp)$ http://[internal 로밸 DNS]:8080" >> /etc/httpd/conf/httpd.conf 
+sudo echo "ProxyPassReverse / http://[internal 로밸 DNS]/">> /etc/httpd/conf/httpd.conf 
+sudo echo "</VirtualHost> " >> /etc/httpd/conf/httpd.conf 
+sudo systemctl enable httpd
