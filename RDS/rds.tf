@@ -11,9 +11,6 @@ resource "aws_db_instance" "default" {
   skip_final_snapshot  = true
   vpc_security_group_ids = [aws_security_group.terra-sg-pri-db.id]
 }
-output "rds_endpoint" {
-  value = "${aws_db_instance.default.endpoint}"
-  }
 
 resource "aws_db_subnet_group" "default" {
   name = "main"
