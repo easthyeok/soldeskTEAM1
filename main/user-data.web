@@ -13,7 +13,7 @@ sudo systemctl restart httpd
 
 sudo echo "<VirtualHost *:80>" >> /etc/httpd/conf/httpd.conf 
 sudo echo "ServerName [EX로드밸런스 DNS]
-ErrorLog logs/counterjp.fureweb.com-error_log" >> /etc/httpd/conf/httpd.conf 
+ErrorLog logs/www.hyeok.xyz-error_log" >> /etc/httpd/conf/httpd.conf 
 sudo echo "ProxyRequests Off" >> /etc/httpd/conf/httpd.conf 
 sudo echo -e "ProxyPreserveHost On\n" >> /etc/httpd/conf/httpd.conf 
 
@@ -23,8 +23,8 @@ sudo echo "Allow from all" >> /etc/httpd/conf/httpd.conf
 sudo echo -e "</Proxy>\n" >> /etc/httpd/conf/httpd.conf 
 
 sudo echo "ProxyPass / http://[internal 로밸 DNS]/" >> /etc/httpd/conf/httpd.conf 
-sudo echo "#ProxyPassMatch ^/(.*\.do)$ http://[internal 로밸 DNS]:8080" >> /etc/httpd/conf/httpd.conf 
-sudo echo "#ProxyPassMatch ^/(.*\.jsp)$ http://[internal 로밸 DNS]:8080" >> /etc/httpd/conf/httpd.conf 
+#sudo echo "ProxyPassMatch ^/(.*\.do)$ http://[internal 로밸 DNS]:8080" >> /etc/httpd/conf/httpd.conf 
+#sudo echo "ProxyPassMatch ^/(.*\.jsp)$ http://[internal 로밸 DNS]:8080" >> /etc/httpd/conf/httpd.conf 
 sudo echo "ProxyPassReverse / http://[internal 로밸 DNS]/">> /etc/httpd/conf/httpd.conf 
 sudo echo "</VirtualHost> " >> /etc/httpd/conf/httpd.conf 
 sudo systemctl enable httpd
