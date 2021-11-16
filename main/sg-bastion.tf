@@ -1,7 +1,6 @@
 resource "aws_security_group" "terra-sg-pub-bastion"{
     name = "terra-sg-pub-bastion"
     description = "terra-sg-pub-bastion"
-    vpc_id = aws_vpc.terra-vpc.id
     
   ingress {
     from_port = 22
@@ -25,6 +24,31 @@ resource "aws_security_group" "terra-sg-pub-bastion"{
     from_port = 2049
     to_port = 2049
     protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  #NFS#
+    ingress {
+    protocol    = "tcp"
+    from_port   = 20048
+    to_port     = 20048
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    protocol    = "udp"
+    from_port   = 20048
+    to_port     = 20048
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    protocol    = "tcp"
+    from_port   = 111
+    to_port     = 111
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    protocol    = "udp"
+    from_port   = 111
+    to_port     = 111
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
