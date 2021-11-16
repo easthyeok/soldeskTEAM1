@@ -1,5 +1,5 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = "vlskd"
+ resource "aws_s3_bucket" "bucket" {
+  bucket = "honestrusty"
   acl    = "private"
 
   lifecycle_rule {
@@ -20,4 +20,4 @@ resource "aws_s3_bucket" "bucket" {
       days = 90
     }
   }
-}
+} 
