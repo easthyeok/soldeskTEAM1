@@ -3,6 +3,7 @@ resource "aws_db_instance" "default" {
   engine               = "mysql"
   engine_version       = "8.0.23"
   instance_class       = "db.t2.micro"
+  multi_az             = true
   identifier           = "database-1"
   username             = "soldesk"
   password             = "soldesk1"
@@ -11,9 +12,6 @@ resource "aws_db_instance" "default" {
   skip_final_snapshot  = true
   vpc_security_group_ids = [aws_security_group.terra-sg-pri-db.id]
 }
-output "rds_endpoint" {
-  value = "${aws_db_instance.default.endpoint}"
-  }
 
 resource "aws_db_subnet_group" "default" {
   name = "main"
